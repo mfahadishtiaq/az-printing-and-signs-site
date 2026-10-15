@@ -1311,3 +1311,10 @@ html.motion .welcome-photo img { position: absolute; left: 0; top: -8.1%; height
 .parcel-ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: .8rem; margin: 0; }
 .parcel-ctas .btn { display: inline-flex; align-items: center; justify-content: center; }
 @media (max-width: 899px) { .parcel-ctas a { min-width: 230px; } }
+
+/* 404 page (2026-10-15, launch): plain, the page's own heading and buttons */
+.nf { padding: clamp(4rem, 10vw, 8rem) 0; text-align: center; }
+.nf h1 { font: 700 clamp(1.8rem, 3vw, 2.6rem)/1.2 var(--sans); color: var(--ink); margin: 0 0 .8rem; }
+.nf p { margin: 0 auto 1.6rem; max-width: 32em; font-size: 1.05rem; line-height: 1.55; color: var(--muted); }
+.nf-ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: .8rem; }
+.nf-ctas .btn { display: inline-flex; align-items: center; justify-content: center; }
