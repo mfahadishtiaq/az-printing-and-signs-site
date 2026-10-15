@@ -323,7 +323,22 @@
       var a = e.target.closest && e.target.closest('.pp-clone a[data-product]');
       if (a && openTypes(a.getAttribute('data-product'))) e.preventDefault();
     });
-    var ppRz; window.addEventListener('resize', function () { clearTimeout(ppRz); ppRz = setTimeout(ppHome, 150); });
-    ppHome();
+    /* at rest: only the whole cards show until the customer moves the row */
+    var ppMark = function () {
+      if (!ppStage.classList.contains('pp-rest')) return;
+      var b = ppT.getBoundingClientRect();
+      [].forEach.call(ppT.children, function (li) {
+        var r = li.getBoundingClientRect();
+        li.classList.toggle('pp-off', r.left < b.left - 1 || r.right > b.right + 1);
+      });
+    };
+    var ppWake = function () { ppStage.classList.remove('pp-rest'); };
+    ppStage.classList.add('pp-rest');
+    ppT.addEventListener('pointerdown', ppWake);
+    ppT.addEventListener('touchstart', ppWake, { passive: true });
+    ppT.addEventListener('wheel', function (e) { if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) ppWake(); }, { passive: true });
+    ppStage.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('.pp-arrow')) ppWake(); });
+    var ppRz; window.addEventListener('resize', function () { clearTimeout(ppRz); ppRz = setTimeout(function () { ppHome(); ppMark(); }, 150); });
+    ppHome(); ppMark();
   }
 })();

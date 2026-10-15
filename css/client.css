@@ -1371,6 +1371,43 @@ html.motion .welcome-photo img { position: absolute; left: 0; top: -8.1%; height
 .pp-arrow svg { width: 20px; height: 20px; fill: none; stroke: var(--red); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
 .pp-prev { left: clamp(12px, 2.4vw, 44px); } .pp-next { right: clamp(12px, 2.4vw, 44px); }
 .pp-next svg { transform: scaleX(-1); }
+/* AT REST (Fahad 2026-10-15: "keep it centred at first and then it starts looking
+   like this when customer moves"): on load only the whole, centred cards show;
+   the peeking ones fade in on the customer's first move (js/site.js drops
+   .pp-rest on an arrow, swipe, drag or sideways wheel). */
+.pp-card { transition: opacity .45s ease; }
+.pp-stage.pp-rest .pp-card.pp-off { opacity: 0; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { .pp-card { transition: none; } }
 @media (max-width: 1199px) { .pp-stage { --pp-n: 3; --pp-gap: 18px; } }
 @media (max-width: 699px) { .pp-stage { --pp-n: 1; --pp-gap: 14px; } .pp-arrow { display: none; } }
 @media (prefers-reduced-motion: reduce) { .pp-img img { transition: none; } }
+
+/* =====================================================================
+   BLACK FOOTER (2026-10-15, Fahad: "make the footer black", "less cluttered",
+   "use logo for whatsapp and phone number ... original colours"). White logo,
+   three calm columns, contact as four round icons in their brands' colours.
+   ===================================================================== */
+.foot.foot-dark { background: #0a0a0a; color: rgba(255,255,255,.74); border-top: 0; }
+.foot-dark .foot-h { color: #fff; }
+.foot-dark .foot-line { color: rgba(255,255,255,.66); max-width: 30em; }
+.foot-dark p { color: rgba(255,255,255,.74); }
+.foot-dark a { color: #fff; }
+.foot-dark .foot-contact a:not(.fi) { text-decoration: underline; text-decoration-color: rgba(255,255,255,.35); text-underline-offset: 3px; }
+.foot-dark .foot-contact a:not(.fi):hover { text-decoration-color: #fff; }
+.foot-dark .foot-base { border-top: 1px solid rgba(255,255,255,.12); }
+.foot-dark .foot-base p { color: rgba(255,255,255,.55); }
+.foot-icons { display: flex; gap: 10px; margin-top: .9rem !important; }
+/* .foot-dark .foot-icons a.fi out-ranks the older ".foot-contact a { display: block }" */
+.foot-dark .foot-icons a.fi { display: grid; place-items: center; }
+.fi { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; padding: 0 !important; text-decoration: none;
+  transition: transform .2s ease, box-shadow .2s ease; }
+.fi:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,.45); }
+.fi svg { width: 22px; height: 22px; fill: #fff; }
+.fi-phone { background: #e0202a; }
+.fi-wa { background: #25D366; }
+.fi-wa svg { width: 24px; height: 24px; }
+.fi-fb { background: #fff; }
+.fi-fb svg { width: 44px; height: 44px; fill: #0866FF; }
+.fi-ig { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
+@media (min-width: 900px) { .foot-icons { justify-content: flex-end; } }
+@media (prefers-reduced-motion: reduce) { .fi { transition: none; } .fi:hover { transform: none; } }
