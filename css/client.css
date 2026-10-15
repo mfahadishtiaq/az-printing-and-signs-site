@@ -1338,3 +1338,39 @@ html.motion .welcome-photo img { position: absolute; left: 0; top: -8.1%; height
 .foot-social a:hover { border-color: var(--accent); color: var(--accent); }
 .foot-social svg { width: 20px; height: 20px; fill: currentColor; }
 @media (min-width: 900px) { .foot-social { justify-content: flex-end; } }
+
+/* =====================================================================
+   WHAT WE DO = ONE SLIDING ROW (2026-10-15, client's reference: Vistaprint
+   "Popular Products"; approved off the products-row demo). Supersedes the
+   tabs + 4-across cards. The track runs off the right edge on purpose.
+   ===================================================================== */
+.pp { padding-bottom: clamp(2.5rem, 5vw, 4rem); }
+/* LIKE THE REFERENCE (Fahad 2026-10-15: "its centered but you can still see tiles
+   on the left and right"): full width, an ODD number of whole cards centred
+   (5 desktop, 3 tablet, 1 phone) with part of the next card peeking in at BOTH
+   edges. The row loops (js/site.js clones the set either side), so the left
+   edge always has a card too. Each card snaps to the centre. */
+.pp-stage { --pp-gap: 24px; --pp-n: 5; position: relative; container-type: inline-size; }
+.pp-track { --pp-w: min(310px, calc((100cqw - (var(--pp-n) + 1) * var(--pp-gap)) / (var(--pp-n) + .4)));
+  list-style: none; margin: 0; padding: .3rem 0 .8rem;
+  display: grid; grid-auto-flow: column; grid-auto-columns: var(--pp-w); gap: var(--pp-gap);
+  overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; }
+.pp-track::-webkit-scrollbar { display: none; }
+.pp-card { scroll-snap-align: center; }
+.pp-card a { display: block; text-decoration: none; color: inherit; }
+.pp-img { display: block; aspect-ratio: 6 / 5; border-radius: 10px; overflow: hidden; background: var(--soft); }
+.pp-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s cubic-bezier(.22,1,.36,1); }
+.pp-card a:hover .pp-img img { transform: scale(1.04); }
+.pp-name { display: block; margin-top: .85rem; text-align: center; font: 500 1.05rem/1.35 var(--sans); color: #3a3a3a; }
+/* arrows sit over the peeking cards, level with the middle of the photos */
+.pp-arrow { position: absolute; z-index: 2; transform: translateY(-50%);
+  top: calc(.3rem + min(310px, calc((100cqw - (var(--pp-n) + 1) * var(--pp-gap)) / (var(--pp-n) + .4))) * 5 / 12);
+  width: 44px; height: 44px; border-radius: 50%; border: 1px solid #e3dedc; background: #fff; display: grid; place-items: center;
+  cursor: pointer; box-shadow: 0 4px 14px rgba(18,12,10,.12); transition: box-shadow .2s ease; }
+.pp-arrow:hover { box-shadow: 0 6px 18px rgba(18,12,10,.2); }
+.pp-arrow svg { width: 20px; height: 20px; fill: none; stroke: var(--red); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.pp-prev { left: clamp(12px, 2.4vw, 44px); } .pp-next { right: clamp(12px, 2.4vw, 44px); }
+.pp-next svg { transform: scaleX(-1); }
+@media (max-width: 1199px) { .pp-stage { --pp-n: 3; --pp-gap: 18px; } }
+@media (max-width: 699px) { .pp-stage { --pp-n: 1; --pp-gap: 14px; } .pp-arrow { display: none; } }
+@media (prefers-reduced-motion: reduce) { .pp-img img { transition: none; } }

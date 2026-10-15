@@ -288,4 +288,42 @@
       });
     });
   }
+
+  /* ---------- What we do: the looping row (2026-10-15, client's reference).
+     The 14 real cards stay in the HTML (indexable); a copy of the set goes in
+     front and behind (aria-hidden, not tabbable) so cards peek in at BOTH
+     edges. When the scroll settles in a copy it jumps one set width, which
+     lands on the identical card, so the loop never shows. --pp-n (CSS) is how
+     many whole cards are centred; the arrows move by that many. ---------- */
+  var ppT = document.querySelector('.pp-track');
+  if (ppT) {
+    var ppStage = ppT.parentNode, ppReal = [].slice.call(ppT.children), ppLen = ppReal.length;
+    var ppClone = function (li) {
+      var c = li.cloneNode(true); c.classList.add('pp-clone'); c.setAttribute('aria-hidden', 'true');
+      var a = c.querySelector('a'); if (a) a.tabIndex = -1; return c;
+    };
+    ppReal.slice().reverse().forEach(function (li) { ppT.insertBefore(ppClone(li), ppT.firstChild); });
+    ppReal.forEach(function (li) { ppT.appendChild(ppClone(li)); });
+    var ppX = function (el) { return el.getBoundingClientRect().left - ppT.getBoundingClientRect().left + ppT.scrollLeft; };
+    var ppStep = function () { return ppX(ppReal[1]) - ppX(ppReal[0]); };
+    var ppN = function () { return parseInt(getComputedStyle(ppStage).getPropertyValue('--pp-n'), 10) || 1; };
+    var ppCentre = function (el) { return ppX(el) + el.offsetWidth / 2 - ppT.clientWidth / 2; };
+    var ppJump = function (x) { var sb = ppT.style.scrollBehavior; ppT.style.scrollBehavior = 'auto'; ppT.scrollLeft = x; ppT.style.scrollBehavior = sb; };
+    var ppHome = function () { ppJump(ppCentre(ppReal[Math.floor(ppN() / 2)])); };
+    var ppWrap = function () {
+      var set = ppStep() * ppLen, x = ppT.scrollLeft, mid = ppCentre(ppReal[0]);
+      if (x < mid - set / 2) ppJump(x + set); else if (x > mid + set / 2) ppJump(x - set);
+    };
+    var ppTimer;
+    ppT.addEventListener('scroll', function () { clearTimeout(ppTimer); ppTimer = setTimeout(ppWrap, 160); }, { passive: true });
+    var ppGo = function (d) { ppT.scrollBy({ left: d * ppStep() * ppN(), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); };
+    document.querySelector('.pp-prev').addEventListener('click', function () { ppGo(-1); });
+    document.querySelector('.pp-next').addEventListener('click', function () { ppGo(1); });
+    ppT.addEventListener('click', function (e) {   // the copies open the same window as the real card
+      var a = e.target.closest && e.target.closest('.pp-clone a[data-product]');
+      if (a && openTypes(a.getAttribute('data-product'))) e.preventDefault();
+    });
+    var ppRz; window.addEventListener('resize', function () { clearTimeout(ppRz); ppRz = setTimeout(ppHome, 150); });
+    ppHome();
+  }
 })();
