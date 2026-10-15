@@ -1326,3 +1326,15 @@ html.motion .welcome-photo img { position: absolute; left: 0; top: -8.1%; height
 .head .brand.brand-logo img, .foot .brand.brand-logo img { width: auto; height: 46px; display: block; }
 .foot .brand.brand-logo img { height: 44px; }
 @media (max-width: 899px) { .head .brand.brand-logo img { height: 36px; } }
+
+/* CARRIER PHOTOS (2026-10-15, the client's own DHL / UPS images, Fahad: "use these
+   photos for the dhl and ups windows"): each fills its tile edge to edge. */
+.carrier.carrier-photo { padding: 0; border: 0; height: auto; aspect-ratio: 1600 / 913; overflow: hidden; background: none; }
+.carrier.carrier-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* SOCIAL ICONS (2026-10-15): official glyphs, monochrome ink, 44px targets. */
+.foot-social { display: flex; gap: .5rem; margin-top: .6rem !important; }
+.foot-social a { display: grid; place-items: center; width: 44px; height: 44px; padding: 0 !important; border-radius: 50%; border: 1.5px solid #dcd6da; color: var(--ink); transition: border-color .2s ease, color .2s ease; }
+.foot-social a:hover { border-color: var(--accent); color: var(--accent); }
+.foot-social svg { width: 20px; height: 20px; fill: currentColor; }
+@media (min-width: 900px) { .foot-social { justify-content: flex-end; } }
