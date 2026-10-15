@@ -1318,3 +1318,11 @@ html.motion .welcome-photo img { position: absolute; left: 0; top: -8.1%; height
 .nf p { margin: 0 auto 1.6rem; max-width: 32em; font-size: 1.05rem; line-height: 1.55; color: var(--muted); }
 .nf-ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: .8rem; }
 .nf-ctas .btn { display: inline-flex; align-items: center; justify-content: center; }
+
+/* THE CLIENT'S OWN LOGO (2026-10-15): one image per place, sized by height.
+   Approved off the demo boards/2026-10-15-client-logo-demo.html. */
+/* .head/.foot + .brand.brand-logo out-ranks the older square-mark rules
+   (.head .brand img { width: 52px } and its breakpoints), which squashed it. */
+.head .brand.brand-logo img, .foot .brand.brand-logo img { width: auto; height: 46px; display: block; }
+.foot .brand.brand-logo img { height: 44px; }
+@media (max-width: 899px) { .head .brand.brand-logo img { height: 36px; } }
